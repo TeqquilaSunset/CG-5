@@ -241,12 +241,12 @@ namespace CG_5
             if (e.KeyCode == Keys.O)
             {
                 flag2 = true;
-                FigureMove("A", Ax, Ay, Asx, Asy, Aalfa +=2);
+                FigureMove("A", Ax, Ay, Asx, Asy, Aalfa2 +=2);
             }
             if (e.KeyCode == Keys.P)
             {
                 flag2 = true;
-                FigureMove("A", Ax, Ay, Asx, Asy, Aalfa -=2);
+                FigureMove("A", Ax, Ay, Asx, Asy, Aalfa2 -=2);
             }
         }
 
@@ -288,7 +288,7 @@ namespace CG_5
                 flag2 = false;
                 Gl.glPushMatrix();
                 Gl.glTranslatef(Bx, By, 0);
-                Gl.glRotatef(Aalfa, 0, 0, 1);
+                Gl.glRotatef(Aalfa2, 0, 0, 1);
                 Gl.glTranslatef(Ax, Ay, 0);
                 Gl.glTranslatef(-Bx, -By, 0);
                 Gl.glScalef(Asx, Asy, 1);
@@ -306,10 +306,17 @@ namespace CG_5
                 //Gl.glRotatef(-Aalfa, 0, 0, 1);
                 //Gl.glLoadIdentity();
 
-                Gl.glScalef(Asx, Asy, 1);
+                //Gl.glScalef(Asx, Asy, 1);
+                //Gl.glTranslatef(Ax, Ay, 0);
+                //Gl.glRotatef(Aalfa, 0, 0, 1);
+
+                Gl.glPushMatrix();
+                Gl.glTranslatef(Bx, By, 0);
+                Gl.glRotatef(Aalfa2, 0, 0, 1);
+                Gl.glTranslatef(-Bx, -By, 0);
                 Gl.glTranslatef(Ax, Ay, 0);
                 Gl.glRotatef(Aalfa, 0, 0, 1);
-
+                Gl.glScalef(Asx, Asy, 1);
                 DrawA();
                 Gl.glPopMatrix();
             }
