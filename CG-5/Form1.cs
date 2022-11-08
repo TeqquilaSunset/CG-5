@@ -21,9 +21,10 @@ namespace CG_5
     public partial class Form1 : Form
     {
         // положение фигуры A
-        static float Ax = 0;
+        static float Ax = -0.7f;
         static float Ay = 0;
         static float Aalfa = 0;
+        static float Aalfa2 = 0;
         static float Asx = 1;
         static float Asy = 1;
 
@@ -35,32 +36,34 @@ namespace CG_5
         static float Bsy = 1;
 
         static bool flag = false;
+        static bool flag2 = false;
         public Form1()
         {
             InitializeComponent();
             sim.InitializeContexts();
             Gl.glViewport(0, 0, sim.Width, sim.Height);
-            Gl.glClearColor(255, 255, 255, 1);
             Gl.glClear(Gl.GL_COLOR_BUFFER_BIT);
-            Draw();
+            Gl.glClearColor(255, 255, 255, 1);
+            //Draw();
             sim.Invalidate();
         }
 
         private void sim_Load(object sender, EventArgs e)
         {
+            FigureMove("1",1,1,1,1,1);
             //DrawB();
             //DrawA();
         }
 
         private float[,] Polygon(int n, float r, float x, float y)
         {
-            float[,] array = new float[2, n];
+            float[,] array = new float[2, n+1];
             int angel = 360 / (n * 2);
 
             for (int i = 0; i < n; i++)
             {
-                array[0, i] = r * (float)Math.Cos((angel * Math.PI) / 180) + x;
-                array[1, i] = r * (float)Math.Sin((angel * Math.PI) / 180) + y;
+                array[0, i] = r * (float)Math.Cos((angel * Math.PI) / 180);
+                array[1, i] = r * (float)Math.Sin((angel * Math.PI) / 180);
                 angel += 360 / n;
             }
 
@@ -118,12 +121,12 @@ namespace CG_5
             }
             Gl.glEnd();
 
-            //Gl.glPointSize(5f);
-            //Gl.glColor3f(0, 0, 1);
-            //Gl.glEnable(Gl.GL_POINT_SMOOTH);
-            //Gl.glBegin(Gl.GL_POINTS);
-            //Gl.glVertex2f(array[0, 5], array[1, 5]);
-            //Gl.glEnd();
+            Gl.glPointSize(10);
+            Gl.glColor3f(0, 0, 0);
+            Gl.glEnable(Gl.GL_POINT_SMOOTH);
+            Gl.glBegin(Gl.GL_POINTS);
+            Gl.glVertex2f(array[0, 6], array[1, 6]);
+            Gl.glEnd();
 
             sim.Invalidate();
         }
@@ -134,16 +137,16 @@ namespace CG_5
             Gl.glColor3f(0, 0, 0);
             Gl.glLineWidth(3);
             Gl.glBegin(Gl.GL_LINE_LOOP);
-                Gl.glVertex2f(-0.3f, 0.2f);
-                Gl.glVertex2f(-0.3f, -0.2f);
-                Gl.glVertex2f(0.3f, -0.2f);
-                Gl.glVertex2f(0.3f, 0.2f);
+            Gl.glVertex2f(-0.3f, 0.2f);
+            Gl.glVertex2f(-0.3f, -0.2f);
+            Gl.glVertex2f(0.3f, -0.2f);
+            Gl.glVertex2f(0.3f, 0.2f);
             Gl.glEnd();
 
             Gl.glBegin(Gl.GL_LINE_LOOP);
-                Gl.glVertex2f(-0.3f, 0.2f);
-                Gl.glVertex2f(-0.3f, 0.5f);
-                Gl.glVertex2f(-0.1f, 0.2f);
+            Gl.glVertex2f(-0.3f, 0.2f);
+            Gl.glVertex2f(-0.3f, 0.5f);
+            Gl.glVertex2f(-0.1f, 0.2f);
             Gl.glEnd();
 
             Gl.glBegin(Gl.GL_LINE_LOOP);
@@ -171,7 +174,7 @@ namespace CG_5
             if (e.KeyCode == Keys.W)
                 FigureMove("B", Bx, By += 0.1f, Bsx, Bsy, Balfa);
 
-            else if (e.KeyCode == Keys.S)
+            if (e.KeyCode == Keys.S)
                 FigureMove("B", Bx, By -= 0.1f, Bsx, Bsy, Balfa);
 
             if (e.KeyCode == Keys.A)
@@ -187,10 +190,16 @@ namespace CG_5
                 FigureMove("B", Bx, By, Bsx, Bsy, Balfa -= 2);
 
             if (e.KeyCode == Keys.Z)
-                FigureMove("B", Bx, By, Bsx += 0.1f, Bsy += 0.1f, Balfa);
+                FigureMove("B", Bx, By, Bsx += 0.1f, Bsy, Balfa);
 
             if (e.KeyCode == Keys.X)
-                FigureMove("B", Bx, By, Bsx -= 0.1f, Bsy -= 0.1f, Balfa);
+                FigureMove("B", Bx, By, Bsx -= 0.1f, Bsy, Balfa);
+
+            if (e.KeyCode == Keys.C)
+                FigureMove("B", Bx, By, Bsx, Bsy += 0.1f, Balfa);
+
+            if (e.KeyCode == Keys.V)
+                FigureMove("B", Bx, By, Bsx, Bsy -= 0.1f, Balfa);
 
             //фигура А
             if (e.KeyCode == Keys.Y)
@@ -212,15 +221,32 @@ namespace CG_5
                 FigureMove("A", Ax, Ay, Asx, Asy, Aalfa -= 2);
 
             if (e.KeyCode == Keys.B)
-                FigureMove("A", Ax, Ay, Asx += 0.1f, Asy += 0.1f, Aalfa);
+                FigureMove("A", Ax, Ay, Asx += 0.1f, Asy, Aalfa);
 
             if (e.KeyCode == Keys.N)
-                FigureMove("A", Ax, Ay, Asx -= 0.1f, Asy -= 0.1f, Aalfa);
+                FigureMove("A", Ax, Ay, Asx -= 0.1f, Asy, Aalfa);
+
+            if (e.KeyCode == Keys.K)
+                FigureMove("A", Ax, Ay, Asx, Asy += 0.1f, Aalfa);
+
+            if (e.KeyCode == Keys.L)
+                FigureMove("A", Ax, Ay, Asx, Asy -= 0.1f, Aalfa);
 
             if (e.KeyCode == Keys.D0)
             {
                 flag = true;
                 FigureMove("A", Ax, Ay, Asx, Asy, Aalfa);
+            }
+
+            if (e.KeyCode == Keys.O)
+            {
+                flag2 = true;
+                FigureMove("A", Ax, Ay, Asx, Asy, Aalfa +=2);
+            }
+            if (e.KeyCode == Keys.P)
+            {
+                flag2 = true;
+                FigureMove("A", Ax, Ay, Asx, Asy, Aalfa -=2);
             }
         }
 
@@ -237,28 +263,57 @@ namespace CG_5
             // A
             Gl.glClear(Gl.GL_COLOR_BUFFER_BIT);
 
-            Gl.glPushMatrix(); // сохранить матрицу
+             // сохранить матрицу
             if (flag == true)
             {
-                float temp = Aalfa;
-                Gl.glTranslatef(Bx, By, 0);
-                for (int i = 0; i < 50; i++)
+                
+                float temp = 0;
+                //Gl.glScalef(Bsx, Bsy, 1);
+                for (int i = 0; i < 100; i++)
                 {
-                    Gl.glRotatef(temp -= 0.2f, 0, 0, 1);
+                    temp -= 2;
+                    Gl.glPushMatrix();
+                    Gl.glTranslatef(Bx, By, 0);
+                    Gl.glRotatef(temp, 0, 0, 1);
+                    Gl.glTranslatef(Ax, Ay, 0);
+                    Gl.glScalef(Asx, Asy, 1);
                     DrawA();
+                    Gl.glPopMatrix();
                 }
                 flag = false;
-                //Gl.glLoadIdentity();
+                //Gl.glLoadIdentity(); 
+            }
+            else if (flag2 == true)
+            {
+                flag2 = false;
+                Gl.glPushMatrix();
+                Gl.glTranslatef(Bx, By, 0);
+                Gl.glRotatef(Aalfa, 0, 0, 1);
+                Gl.glTranslatef(Ax, Ay, 0);
+                Gl.glTranslatef(-Bx, -By, 0);
+                Gl.glScalef(Asx, Asy, 1);
+                DrawA();
+                Gl.glPopMatrix();
             }
             else
             {
+                Gl.glPushMatrix();
+                //Gl.glScalef(Asx, Asy, 1);
+                //Gl.glTranslatef(Bx, By, 0);
+                //Gl.glTranslatef(Ax, Ay, 0);
+                //Gl.glTranslatef(-Bx, -By, 0);
+                //Gl.glRotatef(Aalfa, 0, 0, 1);  // от порядка транслейт и ротейт зависит относительность поворота
+                //Gl.glRotatef(-Aalfa, 0, 0, 1);
+                //Gl.glLoadIdentity();
+
                 Gl.glScalef(Asx, Asy, 1);
-                Gl.glRotatef(Aalfa, 0, 0, 1);  // от порядка транслейт и ротейт зависит относительность поворота
                 Gl.glTranslatef(Ax, Ay, 0);
+                Gl.glRotatef(Aalfa, 0, 0, 1);
+
                 DrawA();
-                Gl.glLoadIdentity();
+                Gl.glPopMatrix();
             }
-            Gl.glPopMatrix();
+            
 
             
             // B
@@ -268,12 +323,7 @@ namespace CG_5
                 Gl.glRotatef(Balfa, 0, 0, 1);  // от порядка транслейт и ротейт зависит относительность поворота
                 DrawB();
             Gl.glPopMatrix(); // вернуть матрицу
-
-            
             //Draw();
         }
-
-
-
     }
 }
