@@ -76,7 +76,7 @@ namespace CG_5
             int n = 6;
             var array = Polygon(n, 0.25f, -0.7f, 0);
 
-            Gl.glColor4f(0.107f, 0.207f, 0.1f, 0.01f);
+            Gl.glColor4f(0.207f, 0.407f, 0.1f, 0.01f);
             Gl.glBegin(Gl.GL_POLYGON);
             for (int i = 0; i < n; i++)
             {
@@ -103,7 +103,7 @@ namespace CG_5
             }
             Gl.glEnd();
 
-            Gl.glColor3f(0, 0.8f, 1);
+            Gl.glColor3f(0.101f, 0.7f, 0.8f);
             Gl.glLineWidth(3);
             Gl.glBegin(Gl.GL_POLYGON);
             for (int i = 1; i < 6; i = i + 2)
@@ -112,7 +112,7 @@ namespace CG_5
             }
             Gl.glEnd();
 
-            Gl.glColor3f(0, 0, 0.7f);
+            Gl.glColor3f(0, 0.12f, 0.7f);
             Gl.glLineWidth(3);
             Gl.glBegin(Gl.GL_LINE_LOOP);
             for (int i = 1; i < 6; i = i + 2)
@@ -297,7 +297,7 @@ namespace CG_5
             }
             else
             {
-                Gl.glPushMatrix();
+                //Gl.glPushMatrix();
                 //Gl.glScalef(Asx, Asy, 1);
                 //Gl.glTranslatef(Bx, By, 0);
                 //Gl.glTranslatef(Ax, Ay, 0);
